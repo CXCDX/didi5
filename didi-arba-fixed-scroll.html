@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-black">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Didi Arba - Pearl Collection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            background: #000000;
+            color: #EEECE2;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* DIAGONAL BACKGROUND */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 80px,
+                rgba(238, 236, 226, 0.02) 80px,
+                rgba(238, 236, 226, 0.02) 160px
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 60;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 1px solid rgba(238, 236, 226, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 40px;
+            height: 60px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: #EEECE2;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-right button {
+            background: none;
+            border: none;
+            color: #EEECE2;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: 1px;
+            background: #6FC992;
+            box-shadow: 0 3px 5px rgba(193, 251, 212, 0.5);
+            z-index: 10;
+            transition: width 0.1s;
+        }
+
+        /* MAIN CONTAINER */
+        .main-container {
+            position: relative;
+            width: 100vw;
+            height: calc(100vh - 60px);
+            margin-top: 60px;
+            background: #000;
+        }
+
+        /* FIXED HERO */
+        .fixed-hero {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 100vw;
+            height: calc(100vh - 60px);
+            z-index: 20;
+            pointer-events: none;
+        }
+
+        .hero-labels {
+            position: absolute;
+            inset: 0;
+        }
+
+        .label {
+            position: absolute;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.6;
+        }
+
+        .label-tl { top: 40px; left: 40px; }
+        .label-tc { top: 40px; left: 50%; transform: translateX(-50%); }
+        .label-tr { top: 40px; right: 40px; }
+        .label-br { bottom: 40px; right: 40px; opacity: 1; }
+
+        .hero-image-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30%;
+            max-width: 500px;
+            aspect-ratio: 4/5;
+        }
+
+        .hero-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-size: clamp(80px, 12vw, 200px);
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: -4px;
+            line-height: 0.85;
+            color: #FDFBF7;
+            text-shadow: 0 0 80px rgba(0, 0, 0, 0.5);
+            text-transform: uppercase;
+        }
+
+        /* HORIZONTAL SCROLL */
+        .scroll-container {
+            position: relative;
+            width: 100vw;
+            height: calc(100vh - 60px);
+            overflow-x: auto;
+            overflow-y: hidden;
+            z-index: 10;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scroll-content {
+            display: flex;
+            height: 100%;
+            width: max-content;
+        }
+
+        /* SPACER */
+        .spacer {
+            width: 150vw;
+            height: 100%;
+            flex-shrink: 0;
+        }
+
+        /* SECTION */
+        .section {
+            position: relative;
+            display: grid;
+            height: 100%;
+            padding: 0 40px;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .section-1 {
+            grid-template-columns: 100px 400px 400px 300px 500px 500px;
+            grid-template-rows: repeat(5, 1fr);
+            width: 2300px;
+        }
+
+        .section-2 {
+            grid-template-columns: 100px 300px 400px 400px 300px 500px 500px;
+            grid-template-rows: repeat(5, 1fr);
+            width: 2600px;
+        }
+
+        .section-3 {
+            grid-template-columns: 100px 250px 300px 400px 400px 550px;
+            grid-template-rows: repeat(6, 1fr);
+            width: 2100px;
+        }
+
+        /* CONNECTOR LINES */
+        .line-h {
+            position: absolute;
+            top: 32%;
+            left: -2%;
+            width: 40%;
+            height: 1px;
+            background: #6FC992;
+            box-shadow: 0 0 30px 2px rgba(111, 201, 146, 0.8);
+        }
+
+        .line-v {
+            position: absolute;
+            top: -2%;
+            left: 28%;
+            width: 1px;
+            height: 40%;
+            background: #6FC992;
+            box-shadow: 0 0 30px 2px rgba(111, 201, 146, 0.8);
+        }
+
+        /* PRODUCT IMAGE */
+        .product-img {
+            grid-column: 2 / span 2;
+            grid-row: 2 / span 4;
+            align-self: center;
+        }
+
+        .section-2 .product-img {
+            grid-column: 3 / span 2;
+        }
+
+        .section-3 .product-img {
+            grid-column: 4 / span 1;
+            grid-row: 2 / span 5;
+        }
+
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        /* PRODUCT INFO */
+        .product-info {
+            grid-column: 4 / span 1;
+            grid-row: 3 / span 1;
+            padding: 20px;
+            align-self: start;
+        }
+
+        .section-2 .product-info {
+            grid-column: 2 / span 1;
+            grid-row: 4 / span 1;
+        }
+
+        .section-3 .product-info {
+            grid-column: 3 / span 1;
+            grid-row: 2 / span 1;
+        }
+
+        .product-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 16px;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .quick-view {
+            background: #EEECE2;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* LIFESTYLE */
+        .lifestyle {
+            grid-column: 5 / span 2;
+            grid-row: 2 / span 5;
+            position: relative;
+        }
+
+        .section-2 .lifestyle {
+            grid-column: 6 / span 2;
+            grid-row: 1 / span 5;
+        }
+
+        .section-3 .lifestyle {
+            grid-column: 5 / span 1;
+            grid-row: 1 / span 6;
+        }
+
+        .lifestyle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* MARQUEE */
+        .marquee {
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 100%;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .marquee-track {
+            display: flex;
+            animation: scroll 30s linear infinite;
+        }
+
+        .marquee-content {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 0 24px;
+            white-space: nowrap;
+        }
+
+        .marquee-content span {
+            font-size: 28px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* TAG */
+        .tag {
+            position: absolute;
+            bottom: 60px;
+            right: 60px;
+            background: white;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+        }
+
+        .tag img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .tag-info {
+            color: #000;
+        }
+
+        .tag-name {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .tag-price {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        /* FOOTER */
+        .footer {
+            width: 450px;
+            height: 100%;
+            background: #1D1E1E;
+            flex-shrink: 0;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .footer-section {
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #EEECE2;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAV -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Didi Arba</div>
+            <div class="nav-links">
+                <a href="#">Collections</a>
+                <a href="#">Pearls & Beyond</a>
+                <a href="#">Contact</a>
+            </div>
+            <div class="nav-right">
+                <button>Search</button>
+                <button>Cart</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- MAIN -->
+    <div class="main-container">
+        <!-- FIXED HERO -->
+        <div class="fixed-hero">
+            <div class="hero-labels">
+                <div class="label label-tl">DIDI ARBA</div>
+                <div class="label label-tc">PEARL COLLECTION</div>
+                <div class="label label-tr">EXQUISITE JEWELLERY</div>
+                <div class="label label-br">SCROLL →</div>
+            </div>
+            <div class="hero-image-container">
+                <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=1000&fit=crop&q=90" alt="Pearl">
+            </div>
+            <div class="hero-title">
+                PEARL<br>COLLECTION
+            </div>
+        </div>
+
+        <!-- SCROLL CONTAINER -->
+        <div class="scroll-container" id="scrollContainer">
+            <div class="scroll-content">
+                <!-- SPACER -->
+                <div class="spacer"></div>
+
+                <!-- SECTION 1 -->
+                <div class="section section-1">
+                    <div class="line-h"></div>
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=1000&fit=crop&q=90" alt="Jardin de Chantilly">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Jardin de Chantilly</div>
+                        <div class="product-price">$12,500</div>
+                        <button class="quick-view">QUICK VIEW</button>
+                    </div>
+                    <div class="lifestyle">
+                        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=800&h=1000&fit=crop&q=90" alt="Lifestyle">
+                        <div class="marquee">
+                            <div class="marquee-track">
+                                <div class="marquee-content">
+                                    <span>HAND-KNOTTED SILK</span>
+                                    <span>//</span>
+                                    <span>AAA GRADE LUSTER</span>
+                                    <span>//</span>
+                                </div>
+                                <div class="marquee-content">
+                                    <span>HAND-KNOTTED SILK</span>
+                                    <span>//</span>
+                                    <span>AAA GRADE LUSTER</span>
+                                    <span>//</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tag">
+                            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=100&h=100&fit=crop&q=90" alt="Tag">
+                            <div class="tag-info">
+                                <div class="tag-name">Jardin de Chantilly</div>
+                                <div class="tag-price">USD $12,500</div>
+                            </div>
+                            <span>→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2 -->
+                <div class="section section-2">
+                    <div class="line-v"></div>
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&h=1000&fit=crop&q=90" alt="Torre del Greco">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Torre del Greco</div>
+                        <div class="product-price">$15,800</div>
+                        <button class="quick-view">QUICK VIEW</button>
+                    </div>
+                    <div class="lifestyle">
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&h=1000&fit=crop&q=90" alt="Lifestyle">
+                        <div class="tag">
+                            <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=100&h=100&fit=crop&q=90" alt="Tag">
+                            <div class="tag-info">
+                                <div class="tag-name">Torre del Greco</div>
+                                <div class="tag-price">USD $15,800</div>
+                            </div>
+                            <span>→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3 -->
+                <div class="section section-3">
+                    <div class="line-h"></div>
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&h=1000&fit=crop&q=90" alt="Di Dynasty">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Di Dynasty</div>
+                        <div class="product-price">$8,900</div>
+                        <button class="quick-view">QUICK VIEW</button>
+                    </div>
+                    <div class="lifestyle">
+                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=800&h=1000&fit=crop&q=90" alt="Lifestyle">
+                        <div class="tag">
+                            <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=100&h=100&fit=crop&q=90" alt="Tag">
+                            <div class="tag-info">
+                                <div class="tag-name">Di Dynasty</div>
+                                <div class="tag-price">USD $8,900</div>
+                            </div>
+                            <span>→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 1 REPEAT -->
+                <div class="section section-1">
+                    <div class="line-h"></div>
+                    <div class="product-img">
+                        <img src="https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800&h=1000&fit=crop&q=90" alt="Narmada's Gift">
+                    </div>
+                    <div class="product-info">
+                        <div class="product-name">Narmada's Gift</div>
+                        <div class="product-price">$18,200</div>
+                        <button class="quick-view">QUICK VIEW</button>
+                    </div>
+                    <div class="lifestyle">
+                        <img src="https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=800&h=1000&fit=crop&q=90" alt="Lifestyle">
+                        <div class="tag">
+                            <img src="https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=100&h=100&fit=crop&q=90" alt="Tag">
+                            <div class="tag-info">
+                                <div class="tag-name">Narmada's Gift</div>
+                                <div class="tag-price">USD $18,200</div>
+                            </div>
+                            <span>→</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FOOTER -->
+                <div class="footer">
+                    <div>
+                        <div class="footer-section">
+                            <h4>Collections</h4>
+                            <ul class="footer-links">
+                                <li><a href="#">Jardin de Chantilly</a></li>
+                                <li><a href="#">Torre del Greco</a></li>
+                                <li><a href="#">Di Dynasty</a></li>
+                                <li><a href="#">Narmada's Gift</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h4>About</h4>
+                            <ul class="footer-links">
+                                <li><a href="#">Pearls & Beyond</a></li>
+                                <li><a href="#">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div style="opacity: 0.6; font-size: 13px;">© 2024 Didi Arba</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scrollContainer = document.getElementById('scrollContainer');
+        const progressBar = document.getElementById('progressBar');
+
+        scrollContainer.addEventListener('scroll', () => {
+            const scrollLeft = scrollContainer.scrollLeft;
+            const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
+            const progress = (scrollLeft / maxScroll) * 100;
+            progressBar.style.width = progress + '%';
+        });
+    </script>
+</body>
+</html>
